@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+
+
+{% block title %} {{brand.brand}} {% endblock %}
+
+{% block mainContent %}
+    <div class="info_index">
+        <h2>{{brand.description}}</h2>
+    </div>
+    <div class="cards_index">
+        {% for item in carsList%}
+        <div class="cars_card_index">
+            <a href="/car/{{item.name}}">
+                <div class="card_img_index">
+                    <img src="/static/image/{{ item.img }}" alt="{{ item.name }}">
+                </div>
+
+                <div class="card_text_index">
+                    <h3>{{ item.name }}</h3>
+                    <h4>Брэнд: {{ item.brand }}</h4>
+                    <p>{{ item.price }} рублей</p>
+                    
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
