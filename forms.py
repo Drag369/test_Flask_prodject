@@ -26,3 +26,11 @@ class Authorization(FlaskForm):
     login = StringField('Логин', validators=[Length(min=4, max=20)])
     password = PasswordField('Пароль', validators=[Length(min=4, max=20)])
     sub = SubmitField('Войти')
+
+
+
+class Registration(FlaskForm):
+    login = StringField('Логин', validators=[Length(min=4, max=20)])
+    password = PasswordField('Пароль', validators=[Length(min=4, max=20)])
+    confirm_password = PasswordField('Повторите пароль', validators=[Length(min=4, max=20)])
+    sub = SubmitField('Войти')

@@ -11,11 +11,7 @@ app = Flask(__name__)
 app.config['DATABASE'] = 'static/db/database.db'
 app.config['SECRET_KEY'] = 'secret'
 
-login_manager = LoginManager(app)
-@login_manager.user_loader
-def load_user(user_id):
-    print('load_user')
-    return UserLogin().formDB(user_id, DB.UserDB(get_connect()))
+
 
 def connect_db():
    con = connect(app.config['DATABASE'])
@@ -37,6 +33,12 @@ listMenu = [
    {'link':'/allProducts/', 'name':'Вся продукция'}
 
 ]
+
+login_manager = LoginManager(app)
+@login_manager.user_loader
+def load_user(user_id):
+    print('load_user')
+    return UserLogin().formDB(user_id, DB.UserDB(get_connect()))
 
 def list_brand():
     objects = DB.Cars(get_connect())
@@ -70,7 +72,7 @@ def allProducts():
 def car(name):
     objects = DB.Cars(get_connect())
     lst = objects.get_carByName(name)
-    # print(lst[5])
+    # print(lst[1])
     return render_template('car.html', carsList=lst, brands = list_brand(), menu = listMenu, name = profile())
 
 
@@ -144,6 +146,18 @@ def login():
 
 
     return render_template('login.html', form=form,  brands = list_brand(), menu = listMenu, name = profile())
+
+
+@app.route("/register/", methods=['POST','GET'])
+def register():
+    form = forms.Registration()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data)
+        Object = DB.UserDB(get_connect())
+        Object.registration(form.login.data, hashed_password)
+        print('ВОШЕЛ')
+        return redirect('/login/')
+    return render_template('register.html', form=form,  brands = list_brand(), menu = listMenu, name = profile())
 
 
 

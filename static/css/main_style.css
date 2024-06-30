@@ -112,6 +112,7 @@ a{
 
 .dropdown-menu{
     background: linear-gradient(to right, #ff6b5a, #fd8e70); /* Похожий градиент с немного измененными оттенками */
+    border: 1px solid black;
 }
 .dropdown-item:hover {
     background-color: #fc7b57; /* Цвет при наведении */
@@ -162,7 +163,7 @@ a{
     align-items: center;
 
 }
-.car_card img{
+.card_info img{
     width: 550px;
     height: 500px;
     border: 2px solid black;
@@ -210,12 +211,16 @@ a{
 
 .aunt{
     width: 1000px;
-    height: 500px;
+    height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
 
 
+}
+
+.reg{
+    margin-left: 25px;
 }
 
 .password{
@@ -286,4 +291,21 @@ a{
     margin-bottom: 20px;
 
 
+}
+
+.dop_img{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 1600px;
+    border: 2px solid black;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.dop_img img{
+    
+    width: 350px;
+    height: 300px;
+    border: 2px solid black;
 }
