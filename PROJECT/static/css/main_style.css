@@ -1,0 +1,311 @@
+body {
+    background: linear-gradient( #ff7e5f, #feb47b); /* Ваш градиент */
+    background-attachment: fixed; /* Закрепить фон */
+    background-size: cover; /* Растянуть фон на весь экран */
+    margin: 0;
+    padding: 0;
+    padding-top: var(--header-height); /* Увеличиваем отступ сверху на высоту шапки */
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+#main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.info_index{
+
+    align-items: center;
+    width: 1000px;
+    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
+}
+.info_index h2{
+    font-size: 24px;
+    margin: 20px;
+
+}
+
+
+
+.cards_index{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 1400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+
+}
+
+.all_cards_index{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    
+}
+
+.card_img_index img{
+    width: 100%;
+    height: 300px;
+}
+
+.cars_card_index{
+    
+    width: 300PX;
+    margin-top: 10px;
+    border: 2px solid rgba(61, 49, 32, 0.89);
+    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
+}
+
+.card_text_index{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card_text_index h3,
+.card_text_index h4,
+.card_text_index p {
+    font-size: 20px;
+    color: black;
+    margin: 5px;
+}
+
+
+:root {
+    --header-height: 100px; /* Высота шапки */
+}
+
+
+
+#header_menu{
+    display: flex;
+    width: 100%;
+    height: 70px;
+    justify-content: space-around;
+    background: linear-gradient(to right, #ff6b5a, #fd7a56); /* Похожий градиент с немного измененными оттенками */
+    margin-bottom: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: fixed;
+    z-index: 1000px;
+    top: 0;
+    
+}
+
+#header_menu > * {
+    width: 400px;
+    height: 50px;
+    text-align: center;
+}
+
+
+
+.dropdown-menu{
+    background: linear-gradient(to right, #ff6b5a, #fd8e70); /* Похожий градиент с немного измененными оттенками */
+    border: 1px solid black;
+}
+.dropdown-item:hover {
+    background-color: #fc7b57; /* Цвет при наведении */
+}
+
+.colordrop{
+    background: linear-gradient(to right, #ff5e50, #ff7e6b);
+    border: 1px solid black;
+    color:black
+}
+
+.colordrop:hover,
+#menu:hover{
+    color: white;
+    border: 1px solid rgb(255, 255, 255);
+    background-color: #ff9577;
+}
+
+
+
+.profile{
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+    align-items: center;
+}
+
+#menu{
+    background: linear-gradient(to right, #ff5e50, #ff7e6b);
+    border: 1px solid black;
+    width: auto;
+    padding: 3px;
+    height: auto;
+}
+
+.link_menu{
+
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* Страница машины */
+.car_card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.card_info img{
+    width: 550px;
+    height: 500px;
+    border: 2px solid black;
+
+}
+
+.card_info{
+    display: flex;
+    align-items: center;
+
+}
+
+.car_text{
+    display: flex;
+    width: 1600px;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+
+.description_car{
+    width: auto ;
+    border: solid 2px black;
+    padding: 10px;
+    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
+    font-size: 24px;
+}
+
+.info_car{
+    padding: 10px;
+    border: solid 2px black;
+    height: 200px;
+    margin-left: 20px;
+    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
+}
+
+.info_car p{
+    font-size: 20px;
+}
+
+
+/* Страница Входа */
+
+
+
+.aunt{
+    width: 1000px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.reg{
+    margin-left: 25px;
+}
+
+.password{
+    margin-top: 10px;
+}
+
+.btn button{
+    margin-top:10px;
+    align-items: center;
+    background-color: #fc7b57;
+    
+}
+.btn{
+    border: 0;
+}
+
+
+
+
+/* Админ панель */
+
+/* .addCar{
+    width: 1000px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.addBrand{
+    width: 1000px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+} */
+
+.add{
+    width: 800px;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+} 
+
+
+.strokeCar{
+    border: solid 1px black !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+
+.deleteCar{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 1400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+
+}
+
+.dop_img{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 1600px;
+    border: 2px solid black;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.dop_img img{
+    
+    width: 350px;
+    height: 300px;
+    border: 2px solid black;
+}

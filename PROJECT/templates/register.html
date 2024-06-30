@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+
+
+{% block title %}Авторизация{% endblock %}
+
+
+
+{% block mainContent %}
+
+    <form action="" class="form" method="post">
+
+        {{form.hidden_tag()}}
+
+        <div> {{form.login.label()}} {{form.login()}}  </div>
+
+        <div> {{form.password.label()}} {{form.password()}}  </div>
+
+        <div> {{form.confirm_password.label()}} {{form.confirm_password()}}  </div>
+
+        <div> {{form.sub()}} </div>
+
+    </form>
+
+{% endblock %}
