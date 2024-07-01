@@ -109,8 +109,36 @@ class Cars():
             return True
         except:
             print("ОШИБКА УДАЛЕНИЯ МАШИНЫ")
+            return []   
+        
+
+    def sorted_car_priceASC(self):
+        sql = 'SELECT cars.id, cars.name, cars.price, cars.description, brands.brand, cars.img FROM cars INNER JOIN brands ON brands.id = cars.brand_id ORDER BY cars.price ASC'
+        try:
+            self.__cursor.execute(sql)
+            return self.__cursor.fetchall()
+        except:
+            print("Ошибка получения списка машин по возрастанию цены")
             return []
 
+    def sorted_car_priceDESC(self):
+        sql = 'SELECT cars.id, cars.name, cars.price, cars.description, brands.brand, cars.img FROM cars INNER JOIN brands ON brands.id = cars.brand_id ORDER BY cars.price DESC'
+        try:
+            self.__cursor.execute(sql)
+            return self.__cursor.fetchall()
+        except:
+            print("Ошибка получения списка машин по убыванию цены")
+            return []
+        
+
+    def sorted_car_name(self):
+        sql = 'SELECT cars.id, cars.name, cars.price, cars.description, brands.brand, cars.img FROM cars INNER JOIN brands ON brands.id = cars.brand_id ORDER BY cars.name ASC'
+        try:
+            self.__cursor.execute(sql)
+            return self.__cursor.fetchall()
+        except:
+            print("Ошибка получения списка машин по имени")
+            return []
 
 class UserDB:
     def __init__(self, connection: Connection):

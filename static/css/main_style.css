@@ -309,3 +309,8 @@ a{
     height: 300px;
     border: 2px solid black;
 }
+
+
+.dropdown{
+    z-index: 0;
+}

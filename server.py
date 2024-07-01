@@ -61,10 +61,29 @@ def index():
     return render_template('index.html', carsList = lst, menu = listMenu, brands = list_brand(), name = profile())
 
 
+
+def sortCar(objects,sort_by):
+
+    if sort_by == "price_asc":
+        return objects.sorted_car_priceASC()
+
+    elif sort_by == "price_desc":
+        return objects.sorted_car_priceDESC()
+
+    elif sort_by == "name_asc":
+        return objects.sorted_car_name()
+    
+    else:
+        return objects.get_allCars()
+
+
+
 @app.route('/allProducts/')
 def allProducts():
     objects = DB.Cars(get_connect())
-    lst = objects.get_allCars()
+    sort_by = request.args.get('sort_by')
+    lst = sortCar(objects, sort_by)
+
     return render_template('allProducts.html', carsList = lst, menu = listMenu, brands = list_brand(), name = profile())
 
 
@@ -166,6 +185,8 @@ def register():
 def logout():
     logout_user()
     return redirect('/')
+
+
 
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
