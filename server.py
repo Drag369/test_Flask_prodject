@@ -127,17 +127,7 @@ def add():
     else:
         return "ты не админ!!!"
 
-# @app.route('/deleteCar/')
-# def deleeCar():
-#     objects = DB.Cars(get_connect())
-#     lst = objects.delete_car(id)
-#     return '11'
 
-# @app.route('/brands/')
-# def brands():
-#     objects = DB.Cars(get_connect())
-#     lst = objects.get_all_Brand()
-#     return render_template('brands.html', BrandList = lst, brands = list_brand(), menu = listMenu, name = profile())
 
 
 @app.route('/brandCar/<brand>')
