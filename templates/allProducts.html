@@ -5,11 +5,10 @@
 
 {% block mainContent %}
 
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle colordrop" type="button" data-bs-toggle="dropdown"  aria-expanded="false">
-            Сортировка
-          </button>
-        <ul class="dropdown-menu">
+    <div>
+            <h6>Сортировка</h6>
+
+        <ul class="dropdown-men" >
             <form method="GET" action="/allProducts/">
                 <button type="submit" name="sort_by" value="price_asc">По возростанию цены</button>
                 <button type="submit" name="sort_by" value="price_desc">По убыванию цены</button>

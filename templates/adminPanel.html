@@ -10,7 +10,7 @@
         <div class="addCar">
             <h4>Добавить автомобиль</h4>
 
-            <form action="" class="form" method="post">
+            <form action="" class="form" method="post" enctype="multipart/form-data">
 
                 {{formCar.hidden_tag()}}
 
@@ -35,8 +35,8 @@
                 </div>
 
                 <div class="imageCar">
-                    <div>{{formCar.image.label()}}</div>
-                    <div>{{formCar.image()}}</div>
+                    <div>{{formCar.images.label()}}</div>
+                    <div>{{formCar.images()}}</div>
                 </div>
 
                 <div class="btn"><button type="submit" name="submit_car">Добавить</button></div>

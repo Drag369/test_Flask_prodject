@@ -4,13 +4,16 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 import DB
 import forms
+import os
+from werkzeug.utils import secure_filename
+
 
 from models import UserLogin
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'static/db/database.db'
 app.config['SECRET_KEY'] = 'secret'
-
+app.config['UPLOAD_FOLDER_CAR'] = 'static/image/products'
 
 
 def connect_db():
@@ -110,7 +113,27 @@ def add():
         if request.method == 'POST':
             if 'submit_car' in request.form:
                 if formCar.validate_on_submit():
-                    objects.add_car(formCar.name.data, formCar.price.data, formCar.descriptionCar.data,formCar.brandCar.data, formCar.image.data)
+
+                    name=formCar.name.data
+                    price=formCar.price.data
+                    descriptionCar=formCar.descriptionCar.data
+                    brandCar=formCar.brandCar.data
+                    images=formCar.images.data
+
+                    # Имя для папки
+                    folder_name = name.replace(' ', '_')
+                    folder_path = os.path.join(app.config['UPLOAD_FOLDER_CAR'], folder_name)
+                    # Создание новой папки для автомобиля
+                    os.makedirs(folder_path, exist_ok=True)
+
+                    # Сохранение файла с оригинальным именем в новую папку
+                    for image in images:
+                        if image and image.filename:
+                            filename = secure_filename(image.filename)
+                            image_path = os.path.join(folder_path, filename)
+                            image.save(image_path)
+
+                    objects.add_car(name, price, descriptionCar,brandCar, folder_name)
                     print("Added car")
                     return redirect('/adminPanel/')    
             elif 'submit_brand' in request.form:
