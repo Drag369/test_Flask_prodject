@@ -5,10 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import DB
 import forms
 import os
-from werkzeug.utils import secure_filename
+
 
 
 from models import UserLogin
+
+
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'static/db/database.db'
@@ -204,4 +206,4 @@ def logout():
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
-  app.run(debug=True)
+  app.run()
