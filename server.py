@@ -35,7 +35,7 @@ def close_db(error):
 
 listMenu = [
    {'link':'/index/', 'name':'Главная'},
-   {'link':'/allProducts/', 'name':'Вся продукция'}
+   {'link':'/all-products/', 'name':'Вся продукция'}
 
 ]
 
@@ -83,7 +83,7 @@ def sortCar(objects,sort_by):
 
 
 
-@app.route('/allProducts/')
+@app.route('/all-products/')
 def allProducts():
     objects = DB.Cars(get_connect())
     sort_by = request.args.get('sort_by')
@@ -96,12 +96,12 @@ def allProducts():
 def car(name):
     objects = DB.Cars(get_connect())
     lst = objects.get_carByName(name)
-    # print(lst[1])
+
     return render_template('car.html', carsList=lst, brands = list_brand(), menu = listMenu, name = profile())
 
 
 
-@app.route("/adminPanel/", methods=['POST','GET'])
+@app.route("/admin-panel/", methods=['POST','GET'])
 @login_required
 def add():
     if current_user.role == 'admin':
@@ -137,16 +137,16 @@ def add():
 
                     objects.add_car(name, price, descriptionCar,brandCar, folder_name)
                     print("Added car")
-                    return redirect('/adminPanel/')    
+                    return redirect('/admin-panel/')    
             elif 'submit_brand' in request.form:
                 if formBrand.validate_on_submit():
                     objects.add_Brand(formBrand.brand.data, formBrand.descriptionBrand.data)
                     print("Added brand")
-                    return redirect('/adminPanel/')
+                    return redirect('/admin-panel/')
             elif 'delete_car' in request.form:
                 car_id = request.form['car_id']
                 objects.delete_car(car_id)
-                return redirect('/adminPanel/')
+                return redirect('/admin-panel/')
   
         return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, brands = list_brand(), menu = listMenu, name = profile(), allCars = allCars)
     else:
@@ -155,7 +155,7 @@ def add():
 
 
 
-@app.route('/brandCar/<brand>')
+@app.route('/brand-car/<brand>')
 def brandCar(brand):
    objects = DB.Cars(get_connect())
    lst = objects.get_carByBrand(brand)
