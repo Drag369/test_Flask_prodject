@@ -127,7 +127,7 @@ class Cars():
             self.__cursor.execute(sql)
             return self.__cursor.fetchall()
         except:
-            print("Ошибка получения списка машин по убыванию цены")
+            print("Ошибка получения списка машин по убыванию цены!")
             return []
         
 
