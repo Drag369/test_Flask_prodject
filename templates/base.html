@@ -13,11 +13,11 @@
 <body>
 
         <div id="header_menu">
-            <div class="link_menu">
+            
                 {% for btn in menu %}
                     <a href="{{ btn.link }}" id="menu" > {{ btn.name }} </a>
                 {% endfor %} 
-            </div>
+           
 
 
             <!--  -->
@@ -35,19 +35,19 @@
             <!--  -->
 
             
-            <div class="profile" >
+            
                 {% if name[1] == 'admin'%}
                     <a href="/admin-panel/" id="menu">Админ панель</a>
 
                 {%endif%}
 
                 {% if name[0] != ' '%}
-                    <a >Вы вошли как {{name[0]}}</a>
+                    <span>{{name[0]}}</span>
                     <a href="/logout/" id="menu" >Выйти</a>
                 {%else%}
                     <a href="/login/" id="menu">Вы вошли как гость</a>
                 {%endif%}
-            </div>
+            
 
         </div>
 
