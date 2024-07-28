@@ -2,6 +2,8 @@ from flask import Flask, render_template, g, redirect, url_for, request, session
 from sqlite3 import connect, Connection, Cursor
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
 import DB
 import forms
 import os
@@ -66,7 +68,7 @@ def index():
     return render_template('index.html', carsList = lst, menu = listMenu, brands = list_brand(), name = profile())
 
 
-
+# Попробовать вывести в отдельный файл + написать унивирсальную сортировку. 
 def sortCar(objects,sort_by):
 
     if sort_by == "price_asc":
@@ -111,6 +113,7 @@ def add():
         formCar = forms.addCar()
         formBrand = forms.addBrand()
         allCars = objects.get_allCars()
+        all_Brand = objects.get_all_Brand()
 
         if request.method == 'POST':
             if 'submit_car' in request.form:
@@ -141,14 +144,21 @@ def add():
             elif 'submit_brand' in request.form:
                 if formBrand.validate_on_submit():
                     objects.add_Brand(formBrand.brand.data, formBrand.descriptionBrand.data)
-                    print("Added brand")
+                
                     return redirect('/admin-panel/')
             elif 'delete_car' in request.form:
                 car_id = request.form['car_id']
                 objects.delete_car(car_id)
                 return redirect('/admin-panel/')
-  
-        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, brands = list_brand(), menu = listMenu, name = profile(), allCars = allCars)
+            
+            elif 'delete_brand' in request.form:
+                car_id = request.form['car_id']
+                objects.delete_Brand(car_id)
+                return redirect('/admin-panel/')            
+            
+            
+        
+        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, brands = list_brand(), menu = listMenu, name = profile(), allCars = allCars, all_Brand=all_Brand)
     else:
         return "ты не админ!!!"
 
@@ -192,6 +202,12 @@ def register():
         print('ВОШЕЛ')
         return redirect('/login/')
     return render_template('register.html', form=form,  brands = list_brand(), menu = listMenu, name = profile())
+
+
+@app.route("/profile/", methods=['POST','GET'])
+def profileUser():
+
+    return render_template('profile.html',  name = profile())
 
 
 

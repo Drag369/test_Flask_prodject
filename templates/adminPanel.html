@@ -6,7 +6,7 @@
 
 
 {% block mainContent %}
-    <div class="add">
+    <!-- <div class="add">
         <div class="addCar">
             <h4>Добавить автомобиль</h4>
 
@@ -68,30 +68,175 @@
     </div>
 
 
-    <div class="deleteCar">
+ -->
+    <div class="table-zone">
+        <div class="car_table-container">
+            <h1 class="table-name">
+                Автомобили
+            </h1>
+            <div class="table-columns top-table">
+                <div class="columns top-info">Название</div>
+                <div class="columns top-info">Цена</div>
 
-        {% for car in allCars %}
-        
-            <div class="strokeCar">
-                
-                <div class="Deletename" >
-                    <p>{{car.name}}</p>
-                </div>
-
-                <div class="DeleteBrandCar">
-                    <p>{{car.brand}}</p>
-                </div>
-
-
-
-                <form action="" method="post">
-                    <input type="hidden" name="car_id" value="{{ car.id }}">
-                    <div class="btn" ><button type="submit" name="delete_car">Удалить</button></div>
-                </form>
-
+                <div class="columns top-info">Бренд</div>
+                <div class="columns top-info"></div>
             </div>
 
-        {% endfor %}
+            
+                {% for car in allCars %}
+                <div class="table-columns">
+                        <div class="columns">{{car.name}}</div>
+                        <div class="columns">{{car.price}}</div>
 
+                        <div class="columns">{{car.brand}}</div>
+                        <div class="columns">
+
+                            <form action="" method="post">
+                                <input type="hidden" name="car_id" value="{{ car.id }}">
+                                <button class="remove-car" type="submit" name="delete_car">Удалить</button>
+                            </form>
+            
+
+                        </div>
+                </div>      
+                {% endfor %}
+              
+
+
+            <div class="table-columns">
+                <div class="columns"></div>
+                <div class="columns"></div>
+
+                <div class="columns"></div>
+                <div class="columns">
+                    <button type="button" class="add_car" data-bs-toggle="modal" data-bs-target="#add_car_popup">
+                        Добавить
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="brand_table-container">
+            <h1 class="table-name">
+                Бренд
+            </h1>
+            <div class="table-columns top-table">
+                <div class="columns top-info">Название</div>
+
+                <div class="columns top-info"></div>
+            </div>
+
+
+            <!-- Здесь цикл -->
+            {% for brands in all_Brand %}
+                <div class="table-columns">
+                    <div class="columns">{{brands.brand}}</div>
+
+                    <div class="columns">
+
+
+                        <form action="" method="post">
+                            <input type="hidden" name="car_id" value="{{ brands.id }}">
+                            <button class="remove-car" type="submit" name="delete_brand">Удалить</button>
+                        </form>
+
+                    </div>
+                </div>
+            {% endfor %}    
+            <!--            -->
+
+            <div class="table-columns">
+                <div class="columns"></div>
+
+                <div class="columns">
+                    <button type="button" class="add_car" data-bs-toggle="modal" data-bs-target="#add_brand_popup">
+                        Добавить
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
+    
+
+    <div class="modal fade" id="add_car_popup" tabindex="-1" aria-labelledby="popup_lable" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content popup-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 add_car_popup_label" id="popup_lable">Добавить Автомобиль</h1>
+                    <button  n type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- ИДУТ ИЗМЕНЕНИЯ ОТКАТ ВДРУГ ЧЕГО ДО КОММЕНТАРИЯ -->
+                    <form action="" class="form" method="post" enctype="multipart/form-data">
+
+                        {{formCar.hidden_tag()}}
+
+                        <div class="mb-3">
+                            <label for="{{ formCar.name.id }}" class="col-form-label form_text">{{formCar.name.label()}}</label>
+                            {{ formCar.name(class="form-control text-input") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ formCar.brandCar.id }}" class="col-form-label form_text">{{formCar.brandCar.label()}}</label>
+                            {{ formCar.brandCar(class="form-control text-input") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ formCar.price.id }}" class="col-form-label form_text">{{formCar.price.label()}}</label>
+                            {{ formCar.price(class="form-control text-input") }}
+                        <div class="mb-3">
+                            <label for="{{ formCar.images.id }}" class="col-form-label form_text">{{formCar.images.label()}}</label>
+                            {{ formCar.images(class="form-control") }}
+                        </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ formCar.descriptionCar.id }}" class="col-form-label form_text">{{formCar.descriptionCar.label()}}</label>
+                            {{ formCar.descriptionCar(class="form-control description-input", rows=10, cols=40) }}
+                        </div>
+                        
+                    
+                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn_close" data-bs-dismiss="modal">Закрыть</button>
+                            <div class="btn"><button type="submit" class="btn_add" name="submit_car">Добавить</button></div>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="add_brand_popup" tabindex="-1" aria-labelledby="brand_lable" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content popup-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 add_brand_popup_label" id="brand_lable">Добавить Бренд</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form" method="post">
+
+                        {{formBrand.hidden_tag()}}
+                        <div class="mb-3">
+                            <label for="{{ formBrand.brand.id }}" class="col-form-label form_text">{{formBrand.brand.label()}}</label>
+                            {{ formBrand.brand(class="form-control brand-name") }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ formBrand.descriptionBrand.id }}" class="col-form-label form_text">{{formBrand.descriptionBrand.label()}}</label>
+
+                            {{ formBrand.descriptionBrand(class="form-control description-input") }}
+                        </div>
+                    
+                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn_close" data-bs-dismiss="modal">Закрыть</button>
+                            <div class="btn"><button type="submit" class="btn_add" name="submit_brand">Добавить</button></div>
+                        </div>
+                    </form>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
 {% endblock %}

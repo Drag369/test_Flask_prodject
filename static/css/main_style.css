@@ -1,366 +1,456 @@
-body {
-    background: linear-gradient( #ff7e5f, #feb47b); /* Ваш градиент */
-    background-attachment: fixed; /* Закрепить фон */
-    background-size: cover; /* Растянуть фон на весь экран */
-    margin: 0;
-    padding: 0;
-    padding-top: var(--header-height); /* Увеличиваем отступ сверху на высоту шапки */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+    --background-color: #686868;
+    --text-color: #D8A859;
+    --popup-background-color: #4F4F4F;
+    --add-button-color: #05FB00;
+    --remove-button-color: #FF0000;
+    --input-bg-color: #888888;
+    --dropdown-bg-color: #686868;
+
+    --table-top-col-bg-color: #404040;
+    --table-col-bg-color: #373737;
+    --table-col-border: #5B5B5B;
+
+}
+* { font-family: "Open Sans", sans-serif; }
+
+
+
+
+
+
+body{
+    background: rgb(104, 104, 104);
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 a{
     text-decoration: none;
-    color: black;
 }
 
-#main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+
+
+header {
     width: 100%;
+    display: flex;
+    justify-content: center;
 
 }
 
-.info_index{
 
-    align-items: center;
-    width: 1000px;
-    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
-}
-.info_index h2{
-    font-size: 24px;
+.header-continer{
+    width: 1152px;
+    height: 70px;
     margin: 20px;
+    display: flex;
+    justify-content: space-between; /* Распределяет элементы по краям */
+    align-items: center; /* Центрирует элементы по вертикали */
 
+}
+
+.right-header {
+    display: flex;
+    align-items: center; /* Центрирует элементы по вертикали */
+}
+
+.left-header {
+    display: flex;
+    align-items: center; /* Центрирует элементы по вертикали */
 }
 
 
 
-.cards_index{
+.logo {
+    width: 165.99px;
+    height: 44.27px;
+}
+
+/* ПРОРАБОТАТЬ ОТСУПЫ В ШАПКЕ И ДИВЫ */
+.admin-header{
+    margin-right: 66px; 
+}
+.header-catalog {
+    margin-left: 66px; /* Добавляем отступ между логотипом и ссылкой "Каталог" */
+}
+.admin-header a,
+.header-catalog a {
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 33px;
+    text-align: left;
+}
+
+
+
+.header-login a {
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 33px;
+    text-align: left;
+}
+
+footer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.footer-container{
+    width:800px;
+    margin-top: 98px ;
+    margin-bottom: 2px;
+
+    display: flex;
+    justify-content: space-between; 
+}
+.foot a{
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 33px;
+    letter-spacing: 0%;
+    text-align: left;
+}
+
+/* СТРАНИЦА индекс и шаблон */
+.index-content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.index-body{
+
+    width: 1132px;
+    height: auto;
+
+
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    width: 1400px;
-    margin-top: 20px;
+
+}
+
+.index-text-container{
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.index-text{
+
+    width: 78%;
+    height: auto;
+
+}
+
+.index-text h6{
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 33px;
+    letter-spacing: 0%;
+  
+}
+
+
+
+.cards-index{
+    margin-top: 55px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+
+}
+
+.card-index a{
+    width: 100%;
+    height: 100%;
+}
+
+
+.card-index{
+    height: 300px;
+    width: 250px;
+    background: rgba(217, 217, 217, 0.13);
+    /* opacity: 0.5; */
     margin-bottom: 20px;
 
 
 }
 
-.all_cards_index{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    
+
+
+
+.card-text-index{
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 16px;
+    text-align: center;
 }
 
-.card_img_index img{
+.card-img-index img{
+    height: 180px;
     width: 100%;
-    height: 300px;
-}
 
-.cars_card_index{
-    
-    width: 300PX;
-    margin-top: 10px;
-    border: 2px solid rgba(61, 49, 32, 0.89);
-    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
-}
-
-.card_text_index{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.card_text_index h3,
-.card_text_index h4,
-.card_text_index p {
-    font-size: 20px;
-    color: black;
-    margin: 5px;
-}
-
-
-:root {
-    --header-height: 100px; /* Высота шапки */
 }
 
 
 
-#header_menu{
-    display: flex;
+/* СТРАНИЦА ОДНОЙ МАШИНЫ  */
+
+
+
+.carousel img,
+.carousel-inner,
+.carousel{
+    width: 835px;
+    height: 416px;
+}
+
+
+.img-info-car{
     width: 100%;
-    height: auto;
-    padding: 20px;
-    justify-content: space-around;
-
-    font-size: 20px;
-    background: linear-gradient(to right, #ff6b5a, #fd7a56); /* Похожий градиент с немного измененными оттенками */
-    position: fixed;
-    z-index: 1000px;
-    top: 0;
-    
-}
-
-
-
-
- .dropdown-menu{
-    background: linear-gradient(to right, #ff6b5a, #fd8e70); 
-    border: 1px solid black;
-
-}
-.dropdown-item:hover {
-    background-color: #fc7b57; 
-}
-
-.colordrop{
-    background: linear-gradient(to right, #ff5e50, #ff7e6b);
-    border: 1px solid black;
-    color:black
-}
-
-.colordrop:hover,
-#menu:hover{
-    color: white;
-
-    background-color: #ff9577;
-}
-
-
-
-
-
-#menu{
-    background: linear-gradient(to right, #ff5e50, #ff7e6b);
-    border: 1px solid black;
-    width: auto;
-    padding: 3px;
-    height: auto;
-}
-
-
-
-
-/* Страница машины */
-.car_card{
     display: flex;
-    flex-direction: column;
+
     align-items: center;
 
-}
-.card_info img{
-    width: 550px;
-    height: 500px;
-    border: 2px solid black;
-
-}
-
-.card_info{
-    display: flex;
-    align-items: center;
-
-}
-
-.car_text{
-    display: flex;
-    width: 1600px;
-    justify-content: space-around;
-    margin-top: 20px;
+    margin-bottom: 45px;
 }
 
 
-.description_car{
-    width: auto ;
-    border: solid 2px black;
-    padding: 10px;
-    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
+
+.info-car{
+
+    margin-left: 90px;
+    color: rgb(216, 168, 89);
+
+
+}
+
+.container-info-car{
+    font-size: 24px;
+    font-family: Open Sans;
+}
+
+
+.description-car{
+    width: 100%;
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
     font-size: 24px;
 }
 
-.info_car{
-    padding: 10px;
-    border: solid 2px black;
-    height: 200px;
-    margin-left: 20px;
-    background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
-}
-
-.info_car p{
-    font-size: 20px;
-}
-
-
-/* Страница Входа */
 
 
 
-.aunt{
-    width: 1000px;
-    height: 300px;
+/* СТРАНИЦА профиля.  */
+
+.profile{
+    width: 100%;
+    height:  auto;
     display: flex;
-    align-items: center;
-    justify-content: center;
-
-
-}
-
-.reg{
-    margin-left: 25px;
-}
-
-.password{
-    margin-top: 10px;
-}
-
-.btn button{
-    margin-top:10px;
-    align-items: center;
-    background-color: #fc7b57;
-    
-}
-.btn{
-    border: 0;
-}
-
-
-
-
-/* Админ панель */
-
-/* .addCar{
-    width: 1000px;
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-
-}
-
-.addBrand{
-    width: 1000px;
-    height: 500px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-
-} */
-
-.add{
-    width: 800px;
-    height: 500px;
-    display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: space-around;
 
-} 
 
+}
 
-.strokeCar{
-    border: solid 1px black !important;
+.avatar{
+    width: 250px;
+    height: 300px;
+    border-radius: 30px;
+    background: rgb(217, 217, 217);
+    opacity: 0.5;
+}
+
+.info-profile{
+    width: 636px;
+    height: auto;
     display: flex;
+
+    justify-content: center;
+}
+
+
+/* АДМИН СТРАНИЦА */
+
+.table-zone {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 665px;
+}
+
+.car_table-container {
+    width: 650px;
+    margin-top: 50px;
+    margin-bottom: 70px;
+    display: flex;
+    align-items: center;
     flex-direction: column;
+}
+
+.brand_table-container {
+    width: 320;
+    margin-top: 50px;
+    margin-bottom: 70px;
+    display: flex;
     align-items: center;
-    padding: 10px;
+    flex-direction: column;
 }
 
-
-.deleteCar{
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    width: 1400px;
-    margin-top: 20px;
+.table-name {
+    font-weight: 500;
+    font-style: normal;
+    font-size: 32px;
+    color: var(--text-color);
     margin-bottom: 20px;
-
-
 }
 
-.dop_img{
+.table-columns {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    width: 1600px;
-    border: 2px solid black;
-    margin-top: 20px;
-    padding: 20px;
+    background-color: var(--table-col-bg-color);
 }
 
-.dop_img img{
-    
-    width: 350px;
+.top-table {
+    background-color: var(--table-top-col-bg-color);
+}
+
+.columns {
+    width: 130px;
+    height: 36px;
+    padding: 5px;
+    text-align: center;
+    color: var(--text-color);
+    border: .5px solid var(--table-col-border);
+}
+
+.top-info {
+    color: white
+}
+
+.remove-car, .remove-car:hover, .remove-car:focus{
+    color: var(--remove-button-color);
+    background-color: transparent;
+    border: none;
+}
+
+.add_car, .add_car:hover, .add_car:focus{
+    color: var(--add-button-color);
+    background-color: transparent;
+    border: none;
+}
+
+.description-col {
+    width: 160px;
+}
+
+.car-popup-main-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup_car_date {
+    width: 250px;
+}
+
+
+
+.description-input {
     height: 300px;
-    border: 2px solid black;
 }
 
- @media  (max-width: 768px) {
-    body {
-        padding-top: 100px; 
-        width:  100%
-    }
-
-    :root {
-        --header-height: 70px; 
-    }
-
-    #header_menu {
-        height: 70px; 
-        padding-top: 5px; 
-    }
-
-    .cards_index{
-        width:100%;
-    }
-    .cars_card_index{
-        width: 75%;
-    }
+.brand-name {
+    width: 250px;
+}
 
 
-    .all_cards_index,
-    .description_car,
-    .info_car,
-    .aunt,
-    .add {
-        width: 100%; 
-    }
 
+/* popup */
 
-    .card_info img {
-        width: 300px; 
-        height: 200px; 
-    }
+.popup-content {
+    background-color: var(--popup-background-color);
+}
 
+.form_text, .reg_popup_label, .add_car_popup_label, .add_brand_popup_label {
+    color: var(--text-color)
+}
 
-    .info_index{
+.modal-header {
+    border-bottom: solid var(--background-color);
+}
 
-        align-items: center;
-        width: 100%;
-        background: linear-gradient(to right, #f57d6f, #ff9577); /* Похожий градиент с немного измененными оттенками */
-    }
-    .info_index h2{
-        font-size: 20px;
-        margin: 20px;
-    
-    }
+.modal-footer {
+    border-top: solid var(--background-color);
+}
 
+.form-control {
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    border: 0;
+    border-radius: 30px;
+}
 
-    #header_menu{
-        display: flex;
-        width: 100%;
-        height: auto;
-        padding: 20px;
-        justify-content: space-around;
-        font-size: 16px;
-    }
+.form-control:focus {
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+}
 
+.reg, .reg:hover, .reg:focus {
+    color: var(--text-color);
+    background-color: transparent;
+    border: none;
+}
 
-    #main{
-  
-        width: 100%;
-    
-    }
+.btn_close, .btn_close:hover, .btn_close:focus{
+    color: var(--remove-button-color);
+    background-color: transparent;
+    border: none;
+}
 
-} 
+.btn_add, .btn_add:hover, .btn_add:focus{
+    color: var(--add-button-color);
+    background-color: transparent;
+    border: none;
+}
+
+.reg-box {
+    width: 170px;
+    height: 125px;
+    padding-top: 20px;
+    padding-left: 25px;
+    background-color: var(--dropdown-bg-color);
+}
+
+.reg-item:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.profile, .exit {
+    font-weight: 500;
+    font-style: normal;
+    font-size: 24px;
+    color: var(--text-color)
+}
+

@@ -8,7 +8,8 @@ class Cars():
         self.__cursor.row_factory = Row
 
 
-    def get_allCars(self):
+    def get_allCars(self): 
+        
         sql = 'SELECT cars.id, cars.name, cars.price, cars.description, brands.brand, cars.img FROM cars INNER JOIN brands ON brands.id = cars.brand_id'
         try:
             self.__cursor.execute(sql)
@@ -109,8 +110,20 @@ class Cars():
             return True
         except:
             print("ОШИБКА УДАЛЕНИЯ МАШИНЫ")
-            return []   
-        
+            return [] 
+          
+    def delete_Brand(self, id):
+        sql = 'DELETE FROM brands WHERE id =?'
+        try:
+            self.__cursor.execute(sql,(id,))
+            self.__connect.commit()
+            return True
+        except:
+            print("ОШИБКА УДАЛЕНИЯ БРЭНДА")
+            return []  
+
+   
+       
 
     def sorted_car_priceASC(self):
         sql = 'SELECT cars.id, cars.name, cars.price, cars.description, brands.brand, cars.img FROM cars INNER JOIN brands ON brands.id = cars.brand_id ORDER BY cars.price ASC'

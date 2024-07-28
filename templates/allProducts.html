@@ -23,24 +23,26 @@
  
 
 
-    <div class="cards_index">
+        <div class="cards-index">
 
-        {% for item in carsList%}
+            {% for item in carsList%}
+                <div class="card-index" >
+                    <a href="/car/{{item.name}}">
 
-        <div class="cars_card_index">
-            <a href="/car/{{item.name}}">
-                <div class="card_img_index">
-                    <img src="/static/image/products/{{ item.img }}/index.png" alt="{{ item.name }}">
+                        <div class="card-img-index">
+                            <img src="/static/image/products/{{ item.img }}/index.png" alt="{{ item.name }}">
+                        </div>
+        
+                        <div class="card-text-index">
+                            <p>{{ item.name }}<br>
+                            Брэнд: {{ item.brand }}<br>
+                            {{ item.price }} рублей</p>
+                            
+                        </div>
+                    </a>
                 </div>
 
-                <div class="card_text_index">
-                    <h3>{{ item.name }}</h3>
-                    <h4>Брэнд: {{ item.brand }}</h4>
-                    <p>{{ item.price }} рублей</p>
-                    
-                </div>
-            </a>
+            {% endfor %}
+
         </div>
-        {% endfor %}
-    </div>
 {% endblock %}
