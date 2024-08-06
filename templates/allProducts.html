@@ -6,43 +6,59 @@
 {% block mainContent %}
 
 
+
         <div class="dropdown ">
-            <button class="btn btn-secondary dropdown-toggle colordrop" type="button" data-bs-toggle="dropdown"  aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle colordrop drop-sort" type="button" data-bs-toggle="dropdown"  aria-expanded="false">
                 Сортировка
             </button>
 
-            <ul class="dropdown-menu" >
+            <ul class="dropdown-menu  " >
                 <form method="GET" action="/all-products/">
-                    <button type="submit" name="sort_by" value="price_asc">По возростанию цены</button>
-                    <button type="submit" name="sort_by" value="price_desc">По убыванию цены</button>
-                    <button type="submit" name="sort_by" value="name_asc">  По названию (A-Я)  </button>
+                    <button type="submit" name="sort_by" value="price_asc" class="all-sort-car-drop">По возростанию цены</button>
+                    <button type="submit" name="sort_by" value="price_desc" class="all-sort-car-drop">По убыванию цены</button>
+                    <button type="submit" name="sort_by" value="name_asc" class="all-sort-car-drop">  По названию (A-Я)  </button>
                 </form>
             </ul>
         </div>
 
- 
+        <div class="all-content">
 
-
-        <div class="cards-index">
-
-            {% for item in carsList%}
-                <div class="card-index" >
-                    <a href="/car/{{item.name}}">
-
-                        <div class="card-img-index">
-                            <img src="/static/image/products/{{ item.img }}/index.png" alt="{{ item.name }}">
-                        </div>
+            <div class="all-brands">
+                {% for brand in brands %}
         
-                        <div class="card-text-index">
-                            <p>{{ item.name }}<br>
-                            Брэнд: {{ item.brand }}<br>
-                            {{ item.price }} рублей</p>
-                            
-                        </div>
-                    </a>
-                </div>
+        
+                    <div class="card-brand">
+                        <a href="/brand-car/{{brand.brand}}">{{ brand.brand }}</a>
+                    </div>
+        
+                {% endfor %}
+            </div>
 
-            {% endfor %}
+
+
+            <div class="cards-index-all">
+
+
+                {% for item in carsList%}
+                    <div class="card-index" >
+                        <a href="/car/{{item.name}}">
+
+                            <div class="card-img-index">
+                                <img src="/static/image/products/{{ item.img }}/index.png" alt="{{ item.name }}">
+                            </div>
+            
+                            <div class="card-text-index">
+                                <p>{{ item.name }}<br>
+                                Брэнд: {{ item.brand }}<br>
+                                {{ item.price }} рублей</p>
+                                
+                            </div>
+                        </a>
+                    </div>
+
+                {% endfor %}
+
+            </div>
 
         </div>
 {% endblock %}

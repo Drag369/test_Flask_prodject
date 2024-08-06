@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+
+
+{% block title %} Корзина {% endblock %}
+
+
+
+{% block mainContent %}
+
+    <div class="basket">
+        {% for product in products %}
+            <div class="card-index" >
+
+
+                <div class="card-img-index">
+                    <img src="/static/image/products/{{ product.img }}/index.png" alt="{{ product.name }}">
+                </div>
+        
+                <div class="card-text-index">
+                    <p>{{ product.name }}<br>
+                    {{ product.count_products }} штук <br>
+                    {{product.price *  product.count_products if  product.count_products > 1 else product.price     }} рублей</p>
+                    
+                </div>
+                <form action="" method="post">
+                    <input type="hidden" name="basket_id" value="{{ product.basket_id }}">
+                    <button class="remove-car" type="submit" name="delete_basket_item">Удалить</button>
+                </form>
+            </div>
+
+
+        {% else %}
+            <p>Корзина пуста</p>
+        {% endfor %}
+
+    </div>
+
+    {% if total_sum is not none %}
+        <div class="total-sum">
+            <h3>Итоговая сумма: {{ total_sum }} рублей</h3>
+        </div>
+    {% endif %}
+
+{% endblock %}
+

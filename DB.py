@@ -153,6 +153,50 @@ class Cars():
             print("Ошибка получения списка машин по имени")
             return []
 
+
+
+    def add_product_basket(self, user_id, product_id, count_products=1):
+        try:
+            sql = """
+            INSERT INTO basket (user_id, product_id, count_products)
+            VALUES (?, ?, ?)
+            ON CONFLICT(user_id, product_id) DO UPDATE SET count_products = count_products + excluded.count_products
+            """
+            self.__cursor.execute(sql, (user_id, product_id, count_products))
+            self.__connect.commit()
+            return True
+        
+        except Error as e:
+            print('Ошибка дбавления в корзину', e)
+
+        return False
+            
+    def get_products_basket(self, user_id):
+        try:
+            sql = """
+            SELECT  basket.basket_id, cars.price, cars.name,cars.img, basket.count_products
+            FROM basket 
+            INNER JOIN cars ON basket.product_id = cars.id 
+            WHERE basket.user_id = ?
+            """
+            self.__cursor.execute(sql, (user_id,))
+            res = self.__cursor.fetchall()
+            return res if res else []  # Возвращаем пустой список, если результат пуст
+        except Error as e:
+            print('Ошибка получения продуктов из корзины', e)
+            return []  # Возвращаем пустой список в случае ошибки
+        
+
+    def delete_product_basket(self, basket_id):
+        try:
+            sql = "DELETE FROM basket WHERE basket_id =?"
+            self.__cursor.execute(sql, (basket_id,))
+            self.__connect.commit()
+            return True
+        except Error as e:
+            print('Ошибка удаления продукта из корзины', e)
+            return False
+
 class UserDB:
     def __init__(self, connection: Connection):
         self.__connect = connection
@@ -161,7 +205,7 @@ class UserDB:
 
     def registration(self, login, password):
 
-        sql = "INSERT INTO users (login, password) VALUES (?, ?)"
+        sql = "INSERT INTO users (login, password, avatar) VALUES (?, ?, NULL)"
         try:
             self.__cursor.execute(sql, (login, password))
             self.__connect.commit()
@@ -185,27 +229,28 @@ class UserDB:
             return res
 
         except Error as e:
-            print('Ошибка получения данных из базы данных', +str(e))
+            print('Ошибка получения данных из базы данных', e)
 
         return False
 
 
     
     def getUser(self, user_id):
-
-
         try:
-            sql = "SELECT * FROM users WHERE id = ? Limit 1"
-
+            # SQL-запрос для получения пользователя по ID
+            sql = "SELECT * FROM users WHERE id = ? LIMIT 1"
             self.__cursor.execute(sql, (user_id,))
             res = self.__cursor.fetchone()
+            
+            # Проверка, найден ли пользователь
             if not res:
                 print('Пользователь не найден')
-                return False
-            
+                return None
+
             return res
 
         except Error as e:
-            print('Ошибка получения данных из базы данных', +str(e))
+            print('Ошибка получения ПРОФИЛЯ из базы данных:', e)
+            return None
 
-        return False
+

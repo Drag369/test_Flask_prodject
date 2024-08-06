@@ -5,7 +5,10 @@ class UserLogin():
     def formDB(self, user_id, db):
         self.__user = db.getUser(user_id)
         self.role = self.__user[3]
+        self.avatar = self.__user[4]
         self.login = self.__user[1]
+        self.id = self.__user[0]
+
         return self
     
     def create(self, user):
@@ -23,3 +26,5 @@ class UserLogin():
     
     def get_id(self):
         return str(self.__user[0])
+
+    

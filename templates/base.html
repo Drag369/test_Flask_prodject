@@ -29,20 +29,8 @@
 
             <div class="left-header">
 
-                    <!-- {% if name[1] == 'admin'%}
-                    <a href="/admin-panel/" id="menu">Админ панель</a>
-
-                {%endif%}
-
-                {% if name[0] != ' '%}
-                    <span>{{name[0]}}</span>
-                    <a href="/logout/" id="menu" >Выйти</a>
-                {%else%}
-                    <a href="/login/" id="menu">Вы вошли как гость</a>
-                {%endif%} -->
 
 
-                
                 <div class="admin-header">
                     {% if name[1] == 'admin'%}
                         <a href="/admin-panel/" id="menu">Админ панель</a>
@@ -53,8 +41,21 @@
                     
 
                     {% if name[0] != ' '%}
-                        <a href="/profile">{{name[0]}}</a>    
-                        <!-- У ПРОФИЛЯ ВЫПАДАЮЩИЙ СПИСОК С ПРЕДЛОЖЕНИЕМ ПЕРЕЙДТИ НА СТРАНИЦУ ПРОФИЛЯ ИЛИ ВЙТИ, МБЗАМЕНИТ НА НИКНЕЙМ С ВЫПАДАЮЩИМ СПИСКОМ (ПРОФИЛЬ/ВЫЙТИ) ВЫБОСДЕЛАЮ ПОЗЖЕ -->
+
+                        <div class="dropdown ">
+                            <button class=" dropdown-profile" type="button" data-bs-toggle="dropdown"  aria-expanded="false">
+                                {{name[0]}}
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-profile " >
+
+                                    <a class="dropdown-profile-item" href="/profile">Профиль</a>
+                                    <a class="dropdown-profile-item" href="/basket">Корзина</a>
+                                    <a class="dropdown-profile-item" href="/logout">Выйти</a>
+
+                            </ul>
+                        </div>
+  
                     {%else%}
                         <a href="/login/">Авторизация</a>
                     {%endif%} 
@@ -79,7 +80,7 @@
     </div>
 
 
-    <footer>
+    <footer class="footer">
         <div class="footer-container">
             <div class="foot">
                 <a href="/index/">Главная</a>

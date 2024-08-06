@@ -17,7 +17,13 @@
 * { font-family: "Open Sans", sans-serif; }
 
 
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
 
+}
 
 
 
@@ -47,7 +53,7 @@ header {
 
 .header-continer{
     width: 1152px;
-    height: 70px;
+    height: auto;
     margin: 20px;
     display: flex;
     justify-content: space-between; /* Распределяет элементы по краям */
@@ -258,6 +264,77 @@ footer{
     font-size: 24px;
 }
 
+/* Алл продуктс */
+
+.cards-index-all{
+    margin-top: 55px;
+    width: 900px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 30px; /* расстояние между элементами */
+    align-items: center;
+
+}
+
+
+.all-content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    
+}
+
+.card-brand a{
+
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+
+
+}
+
+.all-brands{
+    margin-top: 55px;
+    width: auto !important;
+    height:  500px;
+    display: flex;
+
+    margin-right: 20px;
+    flex-direction: column;
+
+    justify-content:space-evenly;
+
+
+
+   
+}
+
+
+.drop-sort{
+    background-color:  rgba(217, 217, 217, 0.13);
+}
+
+.dropdown-menu {
+
+    background: rgba(104, 104, 104, 0.747);
+
+
+    
+}
+
+.all-sort-car-drop{
+    background: rgb(104, 104, 104);
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 16px;
+    width: 200px;
+    margin-bottom: 10px;
+
+
+}
+
 
 
 
@@ -287,6 +364,10 @@ footer{
     display: flex;
 
     justify-content: center;
+
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
 }
 
 
@@ -454,3 +535,44 @@ footer{
     color: var(--text-color)
 }
 
+
+
+.dropdown-profile{
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+
+    background-color: #ff000000;
+    border: 0;
+}
+
+.dropdown-profile-item{
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+
+
+    
+}
+
+.dropdown-profile-item:not(:last-child){
+    margin-bottom: 30px;
+}
+
+.dropdown-menu-profile {
+    padding-left: 20px;
+}
+
+
+.basket{
+
+        margin-top: 55px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    
+
+
+
+}

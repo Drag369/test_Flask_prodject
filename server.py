@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, redirect, url_for, request, session
+from flask import Flask, render_template, g, redirect, url_for, request, session, make_response
 from sqlite3 import connect, Connection, Cursor
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -19,8 +19,11 @@ app.config['DATABASE'] = 'static/db/database.db'
 app.config['SECRET_KEY'] = 'secret'
 app.config['UPLOAD_FOLDER_CAR'] = 'static/image/products'
 
+MAX_CONTENT_LENGTH = 1024 * 1024
 
-def connect_db():
+
+def connect_db(): 
+   
    con = connect(app.config['DATABASE'])
    return con
 
@@ -55,8 +58,16 @@ def list_brand():
 
 
 def profile():
-    username = (current_user.login,current_user.role) if current_user.is_authenticated else ' '
+    username = (current_user.login,current_user.role,current_user.avatar) if current_user.is_authenticated else ' '
     return username
+
+
+# передаю необходимое в шаблон html 
+@app.context_processor
+def base():
+
+    name = profile()
+    return dict(name=name)
 
 
 @app.route('/')
@@ -65,7 +76,7 @@ def index():
     objects = DB.Cars(get_connect())
     lst = objects.get_random_Car(8)
     # print(lst[0][4])
-    return render_template('index.html', carsList = lst, menu = listMenu, brands = list_brand(), name = profile())
+    return render_template('index.html', carsList = lst, brands = list_brand())
 
 
 # Попробовать вывести в отдельный файл + написать унивирсальную сортировку. 
@@ -90,16 +101,45 @@ def allProducts():
     objects = DB.Cars(get_connect())
     sort_by = request.args.get('sort_by')
     lst = sortCar(objects, sort_by)
+    brands = objects.get_all_Brand()
 
-    return render_template('allProducts.html', carsList = lst, menu = listMenu, brands = list_brand(), name = profile())
+
+    return render_template('allProducts.html', carsList = lst, brands = brands)
 
 
-@app.route("/car/<name>")
+@app.route("/car/<name>", methods=['POST','GET'])
 def car(name):
     objects = DB.Cars(get_connect())
     lst = objects.get_carByName(name)
 
-    return render_template('car.html', carsList=lst, brands = list_brand(), menu = listMenu, name = profile())
+    if request.method == 'POST':
+        if 'add_basket' in request.form:
+            obj = DB.Cars(get_connect())
+            obj.add_product_basket(current_user.id, lst[0])
+
+
+
+    return render_template('car.html', carsList=lst, brands = list_brand())
+
+@app.route("/basket/", methods=['POST','GET'])
+@login_required
+def basket():
+
+    objects = DB.Cars(get_connect())
+    lst = objects.get_products_basket(current_user.id)
+    total_sum = sum(item[1] * item[4] for item in lst)
+
+
+    
+    if request.method == 'POST':
+        if 'delete_basket_item' in request.form:
+            id_product = request.form['basket_id']
+            objects.delete_product_basket(id_product)
+            return redirect('/basket/')
+
+    return render_template('basket.html', products = lst ,  name = profile(), total_sum=total_sum)
+
+
 
 
 
@@ -158,7 +198,7 @@ def add():
             
             
         
-        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, brands = list_brand(), menu = listMenu, name = profile(), allCars = allCars, all_Brand=all_Brand)
+        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, brands = list_brand(), allCars = allCars, all_Brand=all_Brand)
     else:
         return "ты не админ!!!"
 
@@ -171,7 +211,7 @@ def brandCar(brand):
    lst = objects.get_carByBrand(brand)
    Brand = objects.get_BrandByName(brand)
 
-   return render_template('brandCar.html', carsList=lst, brands = list_brand(), menu = listMenu, brand=Brand, name = profile())
+   return render_template('brandCar.html', carsList=lst, brands = list_brand(), brand=Brand)
 
 
 @app.route("/login/", methods=['POST','GET'])
@@ -189,7 +229,7 @@ def login():
         return redirect('/')
 
 
-    return render_template('login.html', form=form,  brands = list_brand(), menu = listMenu, name = profile())
+    return render_template('login.html', form=form,  brands = list_brand())
 
 
 @app.route("/register/", methods=['POST','GET'])
@@ -201,13 +241,30 @@ def register():
         Object.registration(form.login.data, hashed_password)
         print('ВОШЕЛ')
         return redirect('/login/')
-    return render_template('register.html', form=form,  brands = list_brand(), menu = listMenu, name = profile())
+    return render_template('register.html', form=form,  brands = list_brand())
 
 
 @app.route("/profile/", methods=['POST','GET'])
 def profileUser():
 
-    return render_template('profile.html',  name = profile())
+    return render_template('profile.html')
+
+
+
+@app.route("/userava")
+@login_required
+def userava():
+    # Получаем бинарные данные изображения из текущего пользователя
+    img = current_user.avatar
+    
+    if not img:
+        return "No image available", 404
+    
+    # Создаем ответ с бинарными данными изображения
+    response = make_response(img)
+    response.headers['Content-Type'] = 'image/png'  # Убедитесь, что MIME-тип соответствует формату изображения
+    
+    return response
 
 
 
@@ -222,4 +279,4 @@ def logout():
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
-  app.run()
+    app.run(debug=True)
