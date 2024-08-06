@@ -10,87 +10,61 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-
     <title>{% block title %}{% endblock %}</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <div class="header-continer">
             <div class="right-header">
-
                 <div class="logo">
                     <a href="/index/"><img src="/static/image/logo.svg" alt="лого"></a>
-                </div> 
-
+                </div>
                 <div class="header-catalog">
                     <a href="/all-products/">Каталог</a>
                 </div>
             </div>
-
             <div class="left-header">
-
-
-
                 <div class="admin-header">
                     {% if name[1] == 'admin'%}
                         <a href="/admin-panel/" id="menu">Админ панель</a>
                     {%endif%}
                 </div>
-
                 <div class="header-login">
-                    
-
                     {% if name[0] != ' '%}
-
-                        <div class="dropdown ">
+                        <div class="dropdown">
                             <button class=" dropdown-profile" type="button" data-bs-toggle="dropdown"  aria-expanded="false">
                                 {{name[0]}}
                             </button>
-
-                            <ul class="dropdown-menu dropdown-menu-profile " >
-
-                                    <a class="dropdown-profile-item" href="/profile">Профиль</a>
-                                    <a class="dropdown-profile-item" href="/basket">Корзина</a>
-                                    <a class="dropdown-profile-item" href="/logout">Выйти</a>
-
+                            <ul class="dropdown-menu dropdown-menu-profile">
+                                <a class="dropdown-profile-item" href="/profile">Профиль</a>
+                                <a class="dropdown-profile-item" href="/basket">Корзина</a>
+                                <a class="dropdown-profile-item" href="/logout">Выйти</a>
                             </ul>
                         </div>
-  
                     {%else%}
                         <a href="/login/">Авторизация</a>
-                    {%endif%} 
+                    {%endif%}
                 </div>
             </div>
         </div>
     </header>
 
-
-
-    <div class="index-content">
-
+    <div class="index-content flex-grow-1">
         <div class="index-body">
-
-            {% block mainContent %} 
-            {% endblock %}  
-            
-
+            {% block mainContent %}
+            {% endblock %}
         </div>
-
-
     </div>
 
-
-    <footer class="footer">
+    <footer class="footer mt-auto">
         <div class="footer-container">
             <div class="foot">
                 <a href="/index/">Главная</a>
             </div>
-
             <div class="foot">
                 <a href="/all-products/">Каталог</a>
             </div>
         </div>
     </footer>
-
 </body>
 </html>

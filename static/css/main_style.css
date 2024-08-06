@@ -18,18 +18,17 @@
 
 
 .footer{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px;
+   flex: 0 0 auto;
+
 
 }
 
 
 
+
 body{
     background: rgb(104, 104, 104);
-
+    
 
     display: flex;
     flex-direction: column;
@@ -136,13 +135,13 @@ footer{
     width: 100%;
     display: flex;
     justify-content: center;
+    
 }
 
 .index-body{
 
     width: 1132px;
-    height: auto;
-
+    
 
     display: flex;
     flex-wrap: wrap;
