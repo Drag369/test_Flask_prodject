@@ -317,7 +317,7 @@ from logging.handlers import RotatingFileHandler
 app.debug = True
 
 # Получаем домашний каталог пользователя
-home_directory = os.path.expanduser("/home/drago/")
+home_directory = os.path.expanduser("/home/drago/hike/")
 
 # Указываем путь к файлу логов в домашнем каталоге
 log_file_path = os.path.join(home_directory, 'error.log')
