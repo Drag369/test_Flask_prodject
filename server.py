@@ -5,6 +5,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import io
 from PIL import Image
+import logging
+
+# Настройка логирования
+home_dir = os.path.expanduser("~")  # Получаем домашнюю директорию пользователя
+log_file = os.path.join(home_dir, 'error.log')  # Полный путь к файлу лога
 
 import DB
 import forms
