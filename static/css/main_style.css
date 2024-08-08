@@ -226,8 +226,8 @@ footer{
 .carousel img,
 .carousel-inner,
 .carousel{
-    width: 835px;
-    height: 416px;
+    width: 800px;
+    height: 400px;
 }
 
 
@@ -339,37 +339,68 @@ footer{
 
 /* СТРАНИЦА профиля.  */
 
-.profile{
+.profile {
     width: 100%;
-    height:  auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-
-
-}
-
-.avatar{
-    width: 250px;
-    height: 300px;
-    border-radius: 30px;
-    background: rgb(217, 217, 217);
-    opacity: 0.5;
-}
-
-.info-profile{
-    width: 636px;
+    margin-top: 90px;
     height: auto;
     display: flex;
-
-    justify-content: center;
-
-    color: rgb(216, 168, 89);
-    font-family: Open Sans;
-    font-size: 24px;
+    flex-direction: row; /* Выравнивание в строку */
+    align-items: flex-start; /* Выровнять по верху */
+    padding-left: 20px;
 }
 
+.avatar_section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 100px; /* Увеличьте отступ до 60px */
+}
 
+.avatar {
+    width: 250px;
+    height: 250px;
+    background: rgb(217, 217, 217);
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: 10px; /* Квадратная аватарка с мягкими углами */
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.update_avatar {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input_avatar {
+    display: inline-block;
+    cursor: pointer;
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.input_avatar:hover {
+    background-color: #5a6268;
+}
+
+.info-profile {
+    flex-grow: 1; /* Контент занимает оставшееся пространство */
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: rgb(216, 168, 89);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    text-align: left;
+}
 /* АДМИН СТРАНИЦА */
 
 .table-zone {

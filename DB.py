@@ -214,6 +214,18 @@ class UserDB:
             print("Ошибка добавления данных в базу данных")
             return 0
         
+
+    def updateAvatar(self, user_id, avatar):
+        try:
+            sql = "UPDATE users SET avatar =? WHERE id =?"
+            self.__cursor.execute(sql, (avatar, user_id))
+            self.__connect.commit()
+            return True
+        except:
+            print("Ошибка изменения аватара")
+            return False
+
+        
     def loginUser(self, login):
 
         try:
@@ -238,7 +250,8 @@ class UserDB:
     def getUser(self, user_id):
         try:
             # SQL-запрос для получения пользователя по ID
-            sql = "SELECT * FROM users WHERE id = ? LIMIT 1"
+            # Убрать пароль. Позже потом поменять значения в models т.к сейчас там достается по индексу из списка. Если получится, то заменить на ключ
+            sql = "SELECT id, login, password, role, avatar FROM users WHERE id = ? LIMIT 1"
             self.__cursor.execute(sql, (user_id,))
             res = self.__cursor.fetchone()
             

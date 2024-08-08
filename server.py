@@ -1,8 +1,10 @@
-from flask import Flask, render_template, g, redirect, url_for, request, session, make_response
+from flask import Flask, render_template, g, redirect, url_for, request, session, make_response, flash, send_file
 from sqlite3 import connect, Connection, Cursor
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+import io
+from PIL import Image
 
 import DB
 import forms
@@ -19,8 +21,8 @@ app.config['DATABASE'] = 'static/db/database.db'
 app.config['SECRET_KEY'] = 'secret'
 app.config['UPLOAD_FOLDER_CAR'] = 'static/image/products'
 
-MAX_CONTENT_LENGTH = 1024 * 1024
 
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Максимальный размер файла 16 MB
 
 def connect_db(): 
    
@@ -47,18 +49,14 @@ listMenu = [
 login_manager = LoginManager(app)
 @login_manager.user_loader
 def load_user(user_id):
-    print('load_user')
+    
     return UserLogin().formDB(user_id, DB.UserDB(get_connect()))
 
-def list_brand():
-    objects = DB.Cars(get_connect())
-    lst = objects.get_all_Brand()
-    return lst
 
 
 
 def profile():
-    username = (current_user.login,current_user.role,current_user.avatar) if current_user.is_authenticated else ' '
+    username = (current_user.login,current_user.role) if current_user.is_authenticated else ' '
     return username
 
 
@@ -76,7 +74,7 @@ def index():
     objects = DB.Cars(get_connect())
     lst = objects.get_random_Car(8)
     # print(lst[0][4])
-    return render_template('index.html', carsList = lst, brands = list_brand())
+    return render_template('index.html', carsList = lst)
 
 
 # Попробовать вывести в отдельный файл + написать унивирсальную сортировку. 
@@ -119,7 +117,7 @@ def car(name):
 
 
 
-    return render_template('car.html', carsList=lst, brands = list_brand())
+    return render_template('car.html', carsList=lst)
 
 @app.route("/basket/", methods=['POST','GET'])
 @login_required
@@ -174,9 +172,18 @@ def add():
                     # Сохранение файла с оригинальным именем в новую папку
                     for image in images:
                         if image and image.filename:
-                            filename = secure_filename(image.filename)
+
+                            img = Image.open(image) # открываю картинку
+
+                            img = img.convert('RGB')
+                            
+                            img = img.resize((800, 400), Image.LANCZOS)
+
+                            
+                            filename = secure_filename(os.path.splitext(image.filename)[0] + '.jpg')
                             image_path = os.path.join(folder_path, filename)
-                            image.save(image_path)
+
+                            img.save(image_path)
 
                     objects.add_car(name, price, descriptionCar,brandCar, folder_name)
                     print("Added car")
@@ -198,7 +205,7 @@ def add():
             
             
         
-        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, brands = list_brand(), allCars = allCars, all_Brand=all_Brand)
+        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, allCars = allCars, all_Brand=all_Brand)
     else:
         return "ты не админ!!!"
 
@@ -211,7 +218,7 @@ def brandCar(brand):
    lst = objects.get_carByBrand(brand)
    Brand = objects.get_BrandByName(brand)
 
-   return render_template('brandCar.html', carsList=lst, brands = list_brand(), brand=Brand)
+   return render_template('brandCar.html', carsList=lst, brand=Brand)
 
 
 @app.route("/login/", methods=['POST','GET'])
@@ -229,7 +236,7 @@ def login():
         return redirect('/')
 
 
-    return render_template('login.html', form=form,  brands = list_brand())
+    return render_template('login.html', form=form)
 
 
 @app.route("/register/", methods=['POST','GET'])
@@ -241,30 +248,59 @@ def register():
         Object.registration(form.login.data, hashed_password)
         print('ВОШЕЛ')
         return redirect('/login/')
-    return render_template('register.html', form=form,  brands = list_brand())
+    return render_template('register.html', form=form )
+# ============================
 
 
-@app.route("/profile/", methods=['POST','GET'])
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route("/profile/", methods=['POST', 'GET'])
+@login_required
 def profileUser():
+    objects = DB.UserDB(get_connect())
+    
+    if request.method == 'POST':
 
-    return render_template('profile.html')
+        file = request.files['file']
+
+
+        if file and allowed_file(file.filename):
+                # Открытие изображения и изменение его размера
+                image = Image.open(file)
+                format = image.format  # Сохранение исходного формата изображения
+
+                # Преобразование в RGB для всех форматов, кроме JPEG
+                if format != 'JPEG':
+                    image = image.convert('RGB')
+
+                # Изменение размера до 100x100 пикселей
+                image = image.resize((250, 250), Image.LANCZOS)
+
+                # Сохранение изображения в бинарный поток
+                img_io = io.BytesIO()
+                image.save(img_io, format=format)  # Сохранение в исходном формате
+                img_io.seek(0)  # Вернуть указатель на начало потока
+
+                avatar = img_io.read()  # Преобразование изображения в бинарные данные
+
+                # Сохраняем аватарку
+                objects.updateAvatar(current_user.id, avatar)
+
+    return render_template('profile.html', user=objects.getUser(current_user.id))
 
 
 
 @app.route("/userava")
-@login_required
 def userava():
-    # Получаем бинарные данные изображения из текущего пользователя
-    img = current_user.avatar
-    
-    if not img:
-        return "No image available", 404
-    
-    # Создаем ответ с бинарными данными изображения
-    response = make_response(img)
-    response.headers['Content-Type'] = 'image/png'  # Убедитесь, что MIME-тип соответствует формату изображения
-    
-    return response
+    objects = DB.UserDB(get_connect())
+    user = objects.getUser(current_user.id)
+    if user and user[4]:  # Проверяем наличие пользователя и его аватара
+        return send_file(io.BytesIO(user[4]), mimetype='image/jpeg', as_attachment=False, download_name='avatar.jpg')
+    return redirect(url_for('static', filename='default_avatar.jpg'))
 
 
 
