@@ -313,7 +313,7 @@ def logout():
 
 import logging
 
-app = Flask(__name__)
+
 
 # Настройка логирования
 log_filename = '/home/drago/app_errors.log'
