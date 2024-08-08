@@ -142,73 +142,73 @@ def basket():
 
 
 
-# @app.route("/admin-panel/", methods=['POST','GET'])
-# @login_required
-# def add():
-#     if current_user.role == 'admin':
+@app.route("/admin-panel/", methods=['POST','GET'])
+@login_required
+def add():
+    if current_user.role == 'admin':
 
-#         objects = DB.Cars(get_connect())
+        objects = DB.Cars(get_connect())
 
-#         formCar = forms.addCar()
-#         formBrand = forms.addBrand()
-#         allCars = objects.get_allCars()
-#         all_Brand = objects.get_all_Brand()
+        formCar = forms.addCar()
+        formBrand = forms.addBrand()
+        allCars = objects.get_allCars()
+        all_Brand = objects.get_all_Brand()
 
-#         if request.method == 'POST':
-#             if 'submit_car' in request.form:
-#                 if formCar.validate_on_submit():
+        if request.method == 'POST':
+            if 'submit_car' in request.form:
+                if formCar.validate_on_submit():
 
-#                     name=formCar.name.data
-#                     price=formCar.price.data
-#                     descriptionCar=formCar.descriptionCar.data
-#                     brandCar=formCar.brandCar.data
-#                     images=formCar.images.data
+                    name=formCar.name.data
+                    price=formCar.price.data
+                    descriptionCar=formCar.descriptionCar.data
+                    brandCar=formCar.brandCar.data
+                    images=formCar.images.data
 
-#                     # Имя для папки
-#                     folder_name = name.replace(' ', '_')
-#                     folder_path = os.path.join(app.config['UPLOAD_FOLDER_CAR'], folder_name)
-#                     # Создание новой папки для автомобиля
-#                     os.makedirs(folder_path, exist_ok=True)
+                    # Имя для папки
+                    folder_name = name.replace(' ', '_')
+                    folder_path = os.path.join(app.config['UPLOAD_FOLDER_CAR'], folder_name)
+                    # Создание новой папки для автомобиля
+                    os.makedirs(folder_path, exist_ok=True)
 
-#                     # Сохранение файла с оригинальным именем в новую папку
-#                     for image in images:
-#                         if image and image.filename:
+                    # Сохранение файла с оригинальным именем в новую папку
+                    for image in images:
+                        if image and image.filename:
 
-#                             img = Image.open(image) # открываю картинку
+                            img = Image.open(image) # открываю картинку
 
-#                             img = img.convert('RGB')
+                            img = img.convert('RGB')
                             
-#                             img = img.resize((800, 400), Image.LANCZOS)
+                            img = img.resize((800, 400), Image.LANCZOS)
 
                             
-#                             filename = secure_filename(os.path.splitext(image.filename)[0] + '.jpg')
-#                             image_path = os.path.join(folder_path, filename)
+                            filename = secure_filename(os.path.splitext(image.filename)[0] + '.jpg')
+                            image_path = os.path.join(folder_path, filename)
 
-#                             img.save(image_path)
+                            img.save(image_path)
 
-#                     objects.add_car(name, price, descriptionCar,brandCar, folder_name)
-#                     print("Added car")
-#                     return redirect('/admin-panel/')    
-#             elif 'submit_brand' in request.form:
-#                 if formBrand.validate_on_submit():
-#                     objects.add_Brand(formBrand.brand.data, formBrand.descriptionBrand.data)
+                    objects.add_car(name, price, descriptionCar,brandCar, folder_name)
+                    print("Added car")
+                    return redirect('/admin-panel/')    
+            elif 'submit_brand' in request.form:
+                if formBrand.validate_on_submit():
+                    objects.add_Brand(formBrand.brand.data, formBrand.descriptionBrand.data)
                 
-#                     return redirect('/admin-panel/')
-#             elif 'delete_car' in request.form:
-#                 car_id = request.form['car_id']
-#                 objects.delete_car(car_id)
-#                 return redirect('/admin-panel/')
+                    return redirect('/admin-panel/')
+            elif 'delete_car' in request.form:
+                car_id = request.form['car_id']
+                objects.delete_car(car_id)
+                return redirect('/admin-panel/')
             
-#             elif 'delete_brand' in request.form:
-#                 car_id = request.form['car_id']
-#                 objects.delete_Brand(car_id)
-#                 return redirect('/admin-panel/')            
+            elif 'delete_brand' in request.form:
+                car_id = request.form['car_id']
+                objects.delete_Brand(car_id)
+                return redirect('/admin-panel/')            
             
             
         
-#         return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, allCars = allCars, all_Brand=all_Brand)
-#     else:
-#         return "ты не админ!!!"
+        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, allCars = allCars, all_Brand=all_Brand)
+    else:
+        return "ты не админ!!!"
 
 
 
@@ -259,49 +259,49 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-# @app.route("/profile/", methods=['POST', 'GET'])
-# @login_required
-# def profileUser():
-#     objects = DB.UserDB(get_connect())
+@app.route("/profile/", methods=['POST', 'GET'])
+@login_required
+def profileUser():
+    objects = DB.UserDB(get_connect())
     
-#     if request.method == 'POST':
+    if request.method == 'POST':
 
-#         file = request.files['file']
-
-
-#         if file and allowed_file(file.filename):
-#                 # Открытие изображения и изменение его размера
-#                 image = Image.open(file)
-#                 format = image.format  # Сохранение исходного формата изображения
-
-#                 # Преобразование в RGB для всех форматов, кроме JPEG
-#                 if format != 'JPEG':
-#                     image = image.convert('RGB')
-
-#                 # Изменение размера до 100x100 пикселей
-#                 image = image.resize((250, 250), Image.LANCZOS)
-
-#                 # Сохранение изображения в бинарный поток
-#                 img_io = io.BytesIO()
-#                 image.save(img_io, format=format)  # Сохранение в исходном формате
-#                 img_io.seek(0)  # Вернуть указатель на начало потока
-
-#                 avatar = img_io.read()  # Преобразование изображения в бинарные данные
-
-#                 # Сохраняем аватарку
-#                 objects.updateAvatar(current_user.id, avatar)
-
-#     return render_template('profile.html', user=objects.getUser(current_user.id))
+        file = request.files['file']
 
 
+        if file and allowed_file(file.filename):
+                # Открытие изображения и изменение его размера
+                image = Image.open(file)
+                format = image.format  # Сохранение исходного формата изображения
 
-# @app.route("/userava")
-# def userava():
-#     objects = DB.UserDB(get_connect())
-#     user = objects.getUser(current_user.id)
-#     if user and user[4]:  # Проверяем наличие пользователя и его аватара
-#         return send_file(io.BytesIO(user[4]), mimetype='image/jpeg', as_attachment=False, download_name='avatar.jpg')
-#     return redirect(url_for('static', filename='default_avatar.jpg'))
+                # Преобразование в RGB для всех форматов, кроме JPEG
+                if format != 'JPEG':
+                    image = image.convert('RGB')
+
+                # Изменение размера до 100x100 пикселей
+                image = image.resize((250, 250), Image.LANCZOS)
+
+                # Сохранение изображения в бинарный поток
+                img_io = io.BytesIO()
+                image.save(img_io, format=format)  # Сохранение в исходном формате
+                img_io.seek(0)  # Вернуть указатель на начало потока
+
+                avatar = img_io.read()  # Преобразование изображения в бинарные данные
+
+                # Сохраняем аватарку
+                objects.updateAvatar(current_user.id, avatar)
+
+    return render_template('profile.html', user=objects.getUser(current_user.id))
+
+
+
+@app.route("/userava")
+def userava():
+    objects = DB.UserDB(get_connect())
+    user = objects.getUser(current_user.id)
+    if user and user[4]:  # Проверяем наличие пользователя и его аватара
+        return send_file(io.BytesIO(user[4]), mimetype='image/jpeg', as_attachment=False, download_name='avatar.jpg')
+    return redirect(url_for('static', filename='default_avatar.jpg'))
 
 
 
