@@ -311,8 +311,20 @@ def logout():
     logout_user()
     return redirect('/')
 
+import logging
+
+app = Flask(__name__)
+
+# Настройка логирования
+log_filename = '/home/вкфпщ/app_errors.log'
+logging.basicConfig(
+    filename=log_filename,
+    level=logging.ERROR,
+    format='%(asctime)s %(levelname)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
