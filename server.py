@@ -316,7 +316,7 @@ import logging
 app = Flask(__name__)
 
 # Настройка логирования
-log_filename = '/home/вкфпщ/app_errors.log'
+log_filename = '/home/drago/app_errors.log'
 logging.basicConfig(
     filename=log_filename,
     level=logging.ERROR,
