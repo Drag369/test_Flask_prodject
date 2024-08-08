@@ -316,13 +316,18 @@ import logging
 from logging.handlers import RotatingFileHandler
 app.debug = True
 
+# Получаем домашний каталог пользователя
+home_directory = os.path.expanduser("~")
+
+# Указываем путь к файлу логов в домашнем каталоге
+log_file_path = os.path.join(home_directory, 'error.log')
+
 # Настройка логирования
-handler = RotatingFileHandler('error.log', maxBytes=10000, backupCount=1)
+handler = RotatingFileHandler(log_file_path, maxBytes=10000, backupCount=1)
 handler.setLevel(logging.ERROR)
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
-
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
     app.run()
