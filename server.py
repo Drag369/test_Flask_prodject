@@ -7,9 +7,17 @@ import io
 from PIL import Image
 import logging
 
-# Настройка логирования
-home_dir = os.path.expanduser("~")  # Получаем домашнюю директорию пользователя
-log_file = os.path.join(home_dir, 'error.log')  # Полный путь к файлу лога
+# Определяем путь к файлу логов
+log_file_path = os.path.expanduser('~/error.log')
+
+# Настройка базового конфигуратора логирования
+logging.basicConfig(
+    filename=log_file_path,
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+
 
 import DB
 import forms
@@ -320,4 +328,4 @@ def logout():
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
