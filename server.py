@@ -23,41 +23,6 @@ app.config['SECRET_KEY'] = 'secret'
 app.config['UPLOAD_FOLDER_CAR'] = 'static/image/products'
 
 
-
-
-
-import logging
-from logging.handlers import RotatingFileHandler
-
-log_file_path = os.path.expanduser('~/error.log')
-
-# Настройка обработчика логирования
-handler = RotatingFileHandler(log_file_path, maxBytes=10000, backupCount=1)
-handler.setLevel(logging.ERROR)
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-
-# Добавляем обработчик в логгер приложения
-app.logger.addHandler(handler)
-app.logger.setLevel(logging.ERROR)
-
-@app.errorhandler(Exception)
-def handle_exception(e):
-    app.logger.error(f'An unhandled exception occurred: {e}', exc_info=True)
-    return 'Internal Server Error', 500
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Максимальный размер файла 16 MB
 
 def connect_db(): 
@@ -347,7 +312,16 @@ def logout():
     return redirect('/')
 
 
+import logging
+from logging.handlers import RotatingFileHandler
+app.debug = True
 
+# Настройка логирования
+handler = RotatingFileHandler('error.log', maxBytes=10000, backupCount=1)
+handler.setLevel(logging.ERROR)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
