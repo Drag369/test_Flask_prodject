@@ -64,9 +64,11 @@ def profile():
 # передаю необходимое в шаблон html 
 @app.context_processor
 def base():
-
+    log = forms.Authorization()
+    reg = forms.Registration()
     name = profile()
-    return dict(name=name)
+
+    return dict(name=name, reg = reg, log=log)
 
 
 @app.route('/')
@@ -78,7 +80,7 @@ def index():
     return render_template('index.html', carsList = lst)
 
 
-# Попробовать вывести в отдельный файл + написать унивирсальную сортировку. 
+
 def sortCar(objects,sort_by):
 
     if sort_by == "price_asc":
@@ -110,13 +112,13 @@ def allProducts():
 def car(name):
     objects = DB.Cars(get_connect())
     lst = objects.get_carByName(name)
-
     if request.method == 'POST':
-        if 'add_basket' in request.form:
-            obj = DB.Cars(get_connect())
-            obj.add_product_basket(current_user.id, lst[0])
-
-
+        if current_user.is_authenticated:
+            if 'add_basket' in request.form:
+                 obj = DB.Cars(get_connect())
+                 obj.add_product_basket(current_user.id, lst[0])
+        else:
+            return redirect("/login")
 
     return render_template('car.html', carsList=lst)
 
@@ -222,22 +224,19 @@ def brandCar(brand):
    return render_template('brandCar.html', carsList=lst, brand=Brand)
 
 
-@app.route("/login/", methods=['POST','GET'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     form = forms.Authorization()
+    if request.method == 'POST' and form.validate_on_submit():
+        log = form.login.data
+        passw = form.password.data
+        Object = DB.UserDB(get_connect())
+        u = Object.loginUser(log)
+        if u and check_password_hash(u[2], passw):
+            userlogin = UserLogin().create(u)
+            login_user(userlogin)
+            return redirect('/')
 
-    log = form.login.data
-    passw = form.password.data
-    Object = DB.UserDB(get_connect())
-
-    u = Object.loginUser(log)
-    if u and check_password_hash(u[2], passw):
-        userlogin = UserLogin().create(u)
-        login_user(userlogin)
-        return redirect('/')
-
-
-    return render_template('login.html', form=form)
 
 
 @app.route("/register/", methods=['POST','GET'])
@@ -248,8 +247,8 @@ def register():
         Object = DB.UserDB(get_connect())
         Object.registration(form.login.data, hashed_password)
         print('ВОШЕЛ')
-        return redirect('/login/')
-    return render_template('register.html', form=form )
+        return redirect('/')
+
 # ============================
 
 
@@ -314,18 +313,18 @@ def logout():
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 if __name__ == "__main__":
-    import logging
+    # import logging
 
 
 
-    # Настройка логирования
-    log_filename = '/home/drago/app_errors.log'
-    logging.basicConfig(
-        filename=log_filename,
-        level=logging.ERROR,
-        format='%(asctime)s %(levelname)s: %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
-    )
+    # # Настройка логирования
+    # log_filename = 'app_errors.log'
+    # logging.basicConfig(
+    #     filename=log_filename,
+    #     level=logging.ERROR,
+    #     format='%(asctime)s %(levelname)s: %(message)s',
+    #     datefmt='%Y-%m-%d %H:%M:%S'
+    # )
 
 
-    app.run()
+    app.run(debug=True)

@@ -42,12 +42,90 @@
                             </ul>
                         </div>
                     {%else%}
-                        <a href="/login/">Авторизация</a>
+                    <button type="button" class="authorization" data-bs-toggle="modal" data-bs-target="#login">
+                        Авторизация
+                    </button>
                     {%endif%}
                 </div>
             </div>
         </div>
     </header>
+
+    <div class="modal fade" id="login" tabindex="-1" aria-labelledby="popup_lable" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content popup-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 add_car_popup_label" id="popup_lable">Войти в аккаунт</h1>
+                    <button  n type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    
+                    <form id="loginForm" method="POST" action="{{ url_for('login') }}">
+                        {{ log.hidden_tag() }}
+                        <div class="form-group">
+                            {{ log.login.label }}
+                            {{ log.login(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ log.password.label }}
+                            {{ log.password(class="form-control") }}
+                        </div>
+                        <button type="submit" class="btn_add">Войти</button>
+                    </form>
+                
+                    <div class="reg">
+                        <button type="button" class="authorization" data-bs-toggle="modal" data-bs-target="#registration">
+                            Регистрация
+                        </button>
+                    </div>
+
+
+                    
+
+                </div>
+
+                    
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="registration" tabindex="-1" aria-labelledby="popup_lable" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content popup-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 add_car_popup_label" id="popup_lable">Регистрация</h1>
+                    <button  n type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form id="regForm" method="POST" action="{{ url_for('register') }}">
+                        {{ reg.hidden_tag() }}
+                        <div class="form-group">
+                            {{ reg.login.label }}
+                            {{ reg.login(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ reg.password.label }}
+                            {{ reg.password(class="form-control") }}
+                        </div>
+                        <div class="form-group">
+                            {{ reg.confirm_password.label }}
+                            {{ reg.confirm_password(class="form-control") }}
+                        </div>
+                        <button type="submit" class="btn_add">Регистрация</button>
+                    </form>
+
+
+                </div>
+
+                    
+            </div>
+        </div>
+    </div>
+
+
 
     <div class="index-content flex-grow-1">
         <div class="index-body">

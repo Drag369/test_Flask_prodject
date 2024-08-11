@@ -606,3 +606,22 @@ footer{
 
 
 }
+
+
+.form-group{
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.btn-login{
+    background-color: #05FB00;
+    border: 0;
+}
+
+.authorization{
+    color: rgb(216, 168, 89);
+    font-family: Open Sans;
+    font-size: 24px;
+    border:0;
+    background: none ;
+}
