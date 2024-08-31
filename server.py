@@ -19,16 +19,19 @@ from models import UserLogin
 
 app = Flask(__name__)
 
-app.config['DATABASE'] = 'static/db/database.db'
+app.config['DATABASE'] = '/home/drago/Документы/project/test_Flask_prodject/static/db/database.db'
 app.config['SECRET_KEY'] = 'secret'
 app.config['UPLOAD_FOLDER_CAR'] = 'static/image/products'
 
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Максимальный размер файла 16 MB
 
+
 def connect_db(): 
    
+   
    con = connect(app.config['DATABASE'])
+   
    return con
 
 
