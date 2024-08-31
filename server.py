@@ -18,6 +18,7 @@ from models import UserLogin
 
 
 app = Flask(__name__)
+
 app.config['DATABASE'] = 'static/db/database.db'
 app.config['SECRET_KEY'] = 'secret'
 app.config['UPLOAD_FOLDER_CAR'] = 'static/image/products'
@@ -234,6 +235,7 @@ def login():
         u = Object.loginUser(log)
         if u and check_password_hash(u[2], passw):
             userlogin = UserLogin().create(u)
+            
             login_user(userlogin)
             return redirect('/')
 
@@ -299,6 +301,7 @@ def userava():
     objects = DB.UserDB(get_connect())
     user = objects.getUser(current_user.id)
     if user and user[4]:  # Проверяем наличие пользователя и его аватара
+        print(user[4])
         return send_file(io.BytesIO(user[4]), mimetype='image/jpeg', as_attachment=False, download_name='avatar.jpg')
     return redirect(url_for('static', filename='default_avatar.jpg'))
 

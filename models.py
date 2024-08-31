@@ -24,7 +24,8 @@ class UserLogin():
     def is_anonymous(self):
         return False
     
-    def get_id(self):
+    def get_id(self): #Тут ретюрню АЙДИ юзера после удачного входа в аккаунт. В дальнейшем он пойдет в начало где идет запрос к бд по айди. 
+        
         return str(self.__user[0])
 
     
