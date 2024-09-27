@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, redirect, url_for, request, session, make_response, flash, send_file
+from flask import Flask, render_template, g, redirect, url_for, request, session, make_response, flash, send_file, jsonify
 from sqlite3 import connect, Connection, Cursor
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,7 +21,7 @@ app = Flask(__name__)
 
 app.config['DATABASE'] = '/home/drago/Документы/project/test_Flask_prodject/static/db/database.db'
 app.config['SECRET_KEY'] = 'secret'
-app.config['UPLOAD_FOLDER_CAR'] = 'static/image/products'
+app.config['UPLOAD_FOLDER_CAR'] = 'test_Flask_prodject/static/image/products'
 
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Максимальный размер файла 16 MB
@@ -82,6 +82,10 @@ def index():
     api_url = 'http://127.0.0.1:8000/api/v1/cars/random?count=8' # Работает вывод рандомных записеей мпшин 
     response = requests.get(api_url)
     data = response.json()
+
+    for i in data['items']:
+        folder_name = i.get('name').replace(' ', '_')
+        i['folder_name'] = folder_name
     
     return render_template('index.html', carsList= data["items"])
 
@@ -101,7 +105,14 @@ def allProducts():
 
     response = requests.get(api_url)
     data = response.json()
+    #============== РАСПАКОВКА НАХУЙ РАДИ ПАПКИ ИМЕНИ=======
 
+    for i in data['items']:
+        folder_name = i.get('name').replace(' ', '_')
+        i['folder_name'] = folder_name
+        
+
+    #============== =======
     ap_url = 'http://127.0.0.1:8000/api/v1/brands/' # Вывод брендов
     resp= requests.get(ap_url)
     da = resp.json()
@@ -114,12 +125,16 @@ def car(name):
 
     api_url = f'http://127.0.0.1:8000/api/v1/cars/name?name={name}'
     response = requests.get(api_url)
-    data = response.json()                                         #Корзину позже
+    data = response.json()   
 
+    folder_name = data.get('name').replace(' ', '_')     
+    data['folder_name'] = folder_name      
+
+    
     return render_template('car.html', carsList=data)
 
 @app.route("/basket/", methods=['POST','GET'])
-@login_required
+@login_required#Корзину позже
 def basket():
 
     objects = DB.Cars(get_connect())
@@ -149,9 +164,15 @@ def add():
 
         formCar = forms.addCar()
         formBrand = forms.addBrand()
-        allCars = objects.get_allCars()
-        all_Brand = objects.get_all_Brand()
+        
+        all_Brand_api_url = 'http://127.0.0.1:8000/api/v1/brands/' # Работает вывод рандомных записеей мпшин 
+        all_Brand_api_url_response = requests.get(all_Brand_api_url)
+        all_Brand= all_Brand_api_url_response.json()
 
+        allCars_api_url = 'http://127.0.0.1:8000/api/v1/cars/' # Работает вывод рандомных записеей мпшин 
+        allCars_api_url_response = requests.get(allCars_api_url)
+        allCars= allCars_api_url_response.json()
+        
         if request.method == 'POST':
             if 'submit_car' in request.form:
                 if formCar.validate_on_submit():
@@ -183,28 +204,60 @@ def add():
                             image_path = os.path.join(folder_path, filename)
 
                             img.save(image_path)
+                            #ИСПОЛЬЗУЮ ИМЯ МАШИНЫ ДЛЯ ПАПКИ и добавить folder_name = name.replace(' ', '_') ЧТОБЫ ПОКА ВРЕМЕННО РАБОТАЛО ТАК И НЕ ПЕРЕПИСЫВАТЬ 
 
-                    objects.add_car(name, price, descriptionCar,brandCar, folder_name)
-                    print("Added car")
-                    return redirect('/admin-panel/')    
+                    #objects.add_car(name, price, descriptionCar,brandCar, folder_name)
+                    #пишу под апи отправку ниже
+                    
+                    car_data = {
+                        'name': name,
+                        'price': price,
+                        'description': descriptionCar,
+                        'brand': brandCar,
+                        
+                    }
+                    api_url = f'http://127.0.0.1:8000/api/v1/cars/'
+                
+                    requests.post(api_url, json=car_data)
+                
+                    return redirect('/admin-panel/')  
+                  
             elif 'submit_brand' in request.form:
                 if formBrand.validate_on_submit():
-                    objects.add_Brand(formBrand.brand.data, formBrand.descriptionBrand.data)
+                    # objects.add_Brand(formBrand.brand.data, formBrand.descriptionBrand.data)
+                    brand=formBrand.brand.data
+                    description=formBrand.descriptionBrand.data
+
+                    brand_data = {
+                        'brand': brand,
+                        'description': description,
+                        
+                    }
+
+                    api_url = f'http://127.0.0.1:8000/api/v1/brands/'
+
+
+                    requests.post(api_url, json=brand_data)
                 
-                    return redirect('/admin-panel/')
+                    return redirect('/admin-panel/')  
+
+
             elif 'delete_car' in request.form:
                 car_id = request.form['car_id']
-                objects.delete_car(car_id)
+                #bjects.delete_car(car_id)
+                api_url = f'http://127.0.0.1:8000/api/v1/cars/{car_id}'
+                requests.delete(api_url)
                 return redirect('/admin-panel/')
             
             elif 'delete_brand' in request.form:
-                car_id = request.form['car_id']
-                objects.delete_Brand(car_id)
+                brand_id = request.form['brand_id']
+                api_url = f'http://127.0.0.1:8000/api/v1/brands/{brand_id}'
+                requests.delete(api_url)
                 return redirect('/admin-panel/')            
             
             
         
-        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, allCars = allCars, all_Brand=all_Brand)
+        return render_template('adminPanel.html', formCar=formCar, formBrand=formBrand, allCars = allCars["items"], all_Brand=all_Brand["items"])
     else:
         return "ты не админ!!!"
 
@@ -221,6 +274,11 @@ def brandCar(brand):
     ap_url = f'http://127.0.0.1:8000/api/v1/cars/brancar?brand={brand}' # вывод инфы о бренде и его страница + машины этого бренда
     resp = requests.get(ap_url)
     da = resp.json()
+
+    for i in da['items']:
+        folder_name = i.get('name').replace(' ', '_')
+        i['folder_name'] = folder_name
+ 
     return render_template('brandCar.html', carsList=da['items'], brand=data)
 
 
@@ -231,8 +289,19 @@ def login():
         log = form.login.data
         passw = form.password.data
         Object = DB.UserDB(get_connect())
-        u = Object.loginUser(log)
-        if u and check_password_hash(u[2], passw):
+        # u = Object.loginUser(log)
+        # if u and check_password_hash(u[2], passw):
+        #     userlogin = UserLogin().create(u)
+        #     print(u)
+        #     login_user(userlogin)
+        #     return redirect('/')
+
+        ap_url = f'http://127.0.0.1:8000/api/v1/accounts/login/{log}'
+        resp = requests.get(ap_url)
+
+        u = resp.json()
+        glist = [item for _ , item in u.items()]
+        if check_password_hash(u[2], passw):
             userlogin = UserLogin().create(u)
             
             login_user(userlogin)
@@ -245,9 +314,14 @@ def register():
     form = forms.Registration()
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data)
-        Object = DB.UserDB(get_connect())
-        Object.registration(form.login.data, hashed_password)
-        print('ВОШЕЛ')
+
+        reg_data = {
+            'login': form.login.data,
+            'password': hashed_password
+        }
+        
+        api_url = f'http://127.0.0.1:8000/api/v1/accounts/'
+        requests.post(api_url, json=reg_data)
         return redirect('/')
 
 # ============================
